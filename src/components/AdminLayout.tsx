@@ -30,7 +30,7 @@ const AdminLayout = ({ children }: { children?: ReactNode }) => {
     const checkAdmin = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
-        navigate("/admin/login");
+        navigate("/login");
         return;
       }
       const { data: roleData } = await supabase
@@ -41,7 +41,7 @@ const AdminLayout = ({ children }: { children?: ReactNode }) => {
         .single();
 
       if (!roleData) {
-        navigate("/admin/login");
+        navigate("/login");
         return;
       }
       setAuthorized(true);
@@ -51,7 +51,7 @@ const AdminLayout = ({ children }: { children?: ReactNode }) => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    navigate("/admin/login");
+    navigate("/login");
   };
 
   if (!authorized) {

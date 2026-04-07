@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import picmartLogo from "@/assets/picmart-logo.jpg";
 
 const LoginPage = () => {
@@ -19,8 +20,30 @@ const LoginPage = () => {
     setLoading(true);
     try {
       await signIn(email, password);
-      toast.success("Login successful!");
-      navigate("/");
+      
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      let isAdmin = false;
+      if (session?.user) {
+        const { data: roleData } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", session.user.id)
+          .eq("role", "admin")
+          .maybeSingle();
+
+        if (roleData && roleData.role === "admin") {
+          isAdmin = true;
+        }
+      }
+
+      if (isAdmin) {
+        toast.success("Admin login successful!");
+        navigate("/admin");
+      } else {
+        toast.success("Login successful!");
+        navigate("/");
+      }
     } catch (err: any) {
       toast.error(err.message || "Login failed");
     } finally {

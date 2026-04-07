@@ -16,7 +16,6 @@ import ChatPage from "./pages/ChatPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import AddressesPage from "./pages/AddressesPage";
-import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminUsers from "./pages/admin/AdminUsers";
@@ -54,7 +53,6 @@ const App = () => (
             <Route path="/addresses" element={<AddressesPage />} />
 
             {/* Admin Routes */}
-            <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route path="/admin" element={<AdminProducts />} />
             <Route path="/admin/products" element={<AdminProducts />} />
             <Route path="/admin/orders" element={<AdminOrders />} />
